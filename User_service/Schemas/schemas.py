@@ -28,10 +28,19 @@ class User(BaseModel):
         orm_mode = True
 
 
-class deleteUserInput(BaseModel):
+class Credentials(BaseModel):
     email: str
     password: str
 
     class Config:
         orm_mode = True
+
+
+class payload(BaseModel):
+    id:int
+    role:str
+
+
+class refresh_token(BaseModel):
+    refresh_token:str
 

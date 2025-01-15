@@ -1,10 +1,9 @@
 from logging import raiseExceptions
-
 from sqlalchemy.orm import Session
+from fastapi import HTTPException, status
 from Model import model
 from Schemas import schemas
 from Hashing.hash import Hash
-from fastapi import HTTPException, status
 
 
 def createUser(request: schemas.User, db: Session):
@@ -39,9 +38,12 @@ def fetchUser(id: int, db: Session):
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"User with the id {id} is not available")
+
+    db.commit()
+
     return user
 
-def deleteUser(request: schemas.deleteUserInput, db: Session):
+def deleteUser(request: schemas.Credentials, db: Session):
     # Fetch the user by email
     user = db.query(model.User).filter(model.User.email == request.email).first()
 
@@ -64,3 +66,24 @@ def deleteUser(request: schemas.deleteUserInput, db: Session):
     db.commit()
 
     return {"detail": f"User with email {request.email} has been successfully deleted."}
+
+
+def login(request: schemas.Credentials, db: Session):
+    user = db.query(model.User).filter(model.User.email == request.email).first()
+
+    # If the user doesn't exist, raise an exception
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with the email {request.email} is not available"
+        )
+
+    if not Hash.verify(user.password, request.password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect password"
+        )
+
+    db.commit()
+
+    return user
