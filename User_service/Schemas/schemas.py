@@ -11,7 +11,7 @@ class Role(BaseModel):
         orm_mode = True
 
 
-# Pydantic model for User
+
 class User(BaseModel):
     user_id: Optional[int]
     full_name: str
@@ -23,6 +23,14 @@ class User(BaseModel):
     roleStatus: str
     activeRole: str
     roles: Optional[List[Role]]
+
+    class Config:
+        orm_mode = True
+
+
+class deleteUserInput(BaseModel):
+    email: str
+    password: str
 
     class Config:
         orm_mode = True

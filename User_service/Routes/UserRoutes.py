@@ -10,10 +10,17 @@ router = APIRouter(
     tags=['Users']
 )
 
-@router.post('/fetch/user')
-def fetch_user(request: schemas.User, db:Session=Depends(get_db)):
-    try:
-        userRepo.create(request, db)
-        return "User have been created successfully"
-    except Exception as e:
-        return  f"error while creating user error: {e}"
+@router.post('/register/user')
+def createUser(request: schemas.User, db:Session=Depends(get_db)):
+    return userRepo.createUser(request, db)
+
+
+@router.get(f'/fetch/user/{id}')
+def fetchUser(id: int, db:Session=Depends(get_db)):
+    return userRepo.fetchUser(id, db)
+
+
+@router.delete('/delete/user')
+def deleteUser(request: schemas.deleteUserInput, db:Session=Depends(get_db)):
+    return userRepo.deleteUser(request, db)
+
