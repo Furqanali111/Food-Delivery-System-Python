@@ -8,6 +8,14 @@ class item(BaseModel):
     class Config:
         orm_mode = True
 
+
+class item_with_quantity(BaseModel):
+    item_id: int
+    quantity: int
+
+    class Config:
+        orm_mode = True
+
 class orderBase(BaseModel):
     user_id: int
     restaurant_id: int
@@ -15,6 +23,18 @@ class orderBase(BaseModel):
     total_bill: float
     delivery_driver: Optional[int] = 0
 
-class orderCreate(orderBase):
-    items: List[item]
+class createOrder(orderBase):
+    items: List[item_with_quantity]
+    class Config:
+        orm_mode = True
+
+
+class orderd_items(BaseModel):
+    item_ids: List[int]
+    restaurant_id: int
+
+class items_with_price(BaseModel):
+    item_id: int
+    item_price: float
+
 
