@@ -3,15 +3,16 @@ from fastapi.security import APIKeyHeader
 from DatabaseConfig.databaseConfig import get_db
 from Schemas import schemas
 from sqlalchemy.orm import Session
+from Repository import restaurantRepo
 
 
 authorization_scheme = APIKeyHeader(name="Authorization", auto_error=True)
 
 router = APIRouter(
-    prefix="/user",
-    tags=['Users']
+    prefix="/restaurant",
+    tags=['Restaurant']
 )
 
 @router.post('/register/restaurant')
-def registerRestaurant(request: schemas.orderCreate, db:Session=Depends(get_db)):
-    return "hello"
+def registerRestaurant(request: schemas.restaurantBase, db:Session=Depends(get_db)):
+    return restaurantRepo.createRestaurant(request,db)
