@@ -1,11 +1,14 @@
 from fastapi import FastAPI
-from Routes import restaurantRoutes
+from Routes import restaurantRoutes, itemRoutes
 from fastapi.openapi.utils import get_openapi
-
+from Model import model
+from DatabaseConfig.databaseConfig import engine
 
 app= FastAPI()
+model.Base.metadata.create_all(engine)
 
 app.include_router(restaurantRoutes.router)
+app.include_router(itemRoutes.router)
 
 def custom_openapi():
     if app.openapi_schema:

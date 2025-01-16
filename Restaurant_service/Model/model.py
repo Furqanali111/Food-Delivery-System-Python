@@ -22,9 +22,9 @@ class Restaurant(Base):
     restaurant_id = Column(Integer, primary_key=True, autoincrement=True)
     restaurant_name = Column(String, nullable=False)
     restaurant_address = Column(String, nullable=False)
-    restaurant_phone_number = Column(Integer, default=0)
+    restaurant_phone_number = Column(String, nullable=False)
     restaurant_email = Column(String(100), nullable=False)
     password = Column(String, nullable=False)
-    restaurant_status = Column(Time, default=datetime.datetime.utcnow)
+    restaurant_status = Column(String)
 
     items = relationship("Item", back_populates="restaurant")

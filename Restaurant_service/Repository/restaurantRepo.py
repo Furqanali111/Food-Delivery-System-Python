@@ -6,7 +6,7 @@ from Schemas import schemas
 from Hashing.hash import Hash
 
 
-def createRestaurant(request: schemas.restaurantBase, db: Session):
+def register_restaurant(db: Session, request: schemas.restaurantBase):
     new_restaurant = model.Restaurant(
         restaurant_name=request.restaurant_name,
         restaurant_address=request.restaurant_address,
@@ -19,5 +19,35 @@ def createRestaurant(request: schemas.restaurantBase, db: Session):
     db.add(new_restaurant)
     db.commit()
     db.refresh(new_restaurant)
+
     return new_restaurant
+
+
+
+
+def login(db: Session,request :schemas.credentials):
+    restaurant = db.query(model.Restaurant).filter(model.Restaurant.restaurant_email == request.email).first()
+
+    # If the user doesn't exist, raise an exception
+    if not restaurant:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with the email {request.email} is not available"
+        )
+
+    if not Hash.verify(restaurant.password, request.password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect password"
+        )
+
+    db.commit()
+    db.refresh(restaurant)
+
+    return restaurant
+
+
+
+
+
 
