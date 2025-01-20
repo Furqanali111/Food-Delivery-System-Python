@@ -8,7 +8,7 @@ def fetch_item_prices(payload:schemas.orderd_items):
 
     response = requests.post(url, json=payload.dict())
 
-    # Printing response
+
     if response.status_code == 200:
         return response.json()
     else:

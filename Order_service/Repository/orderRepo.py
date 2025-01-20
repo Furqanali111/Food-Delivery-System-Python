@@ -5,14 +5,14 @@ from Schemas import schemas
 from datetime import datetime
 
 
-def createOrder(request: schemas.createOrder, db: Session):
+def createOrder(request: schemas.createOrder,total_bil, db: Session):
     # Create a new order
     new_order = model.Order(
         user_id=request.user_id,
         restaurant_id=request.restaurant_id,
         delivery_driver=request.delivery_driver,
         order_status=request.order_status,
-        total_bill=request.total_bill
+        total_bill=total_bil
     )
     db.add(new_order)
     db.commit()
