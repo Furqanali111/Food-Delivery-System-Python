@@ -8,7 +8,6 @@ def create_token(payload:schemas.auth_payload):
 
     response = requests.post(url, json=payload.dict())
 
-    # Printing response
     if response.status_code == 200:
         return response.json()
     else:
@@ -19,7 +18,6 @@ def refresh_token(payload:schemas.refresh_token):
 
     response = requests.post(url, json=payload.dict())
 
-    # Printing response
     if response.status_code == 200:
         return response.json()
     else:

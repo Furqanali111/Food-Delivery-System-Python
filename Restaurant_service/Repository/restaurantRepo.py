@@ -1,4 +1,3 @@
-from logging import raiseExceptions
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from Model import model
@@ -28,7 +27,6 @@ def register_restaurant(db: Session, request: schemas.restaurantBase):
 def login(db: Session,request :schemas.credentials):
     restaurant = db.query(model.Restaurant).filter(request.email == model.Restaurant.restaurant_email).first()
 
-    # If the user doesn't exist, raise an exception
     if not restaurant:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

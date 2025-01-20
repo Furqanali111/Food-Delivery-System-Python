@@ -1,12 +1,10 @@
-from logging import raiseExceptions
 from sqlalchemy.orm import Session
-from fastapi import HTTPException, status
 from Model import model
 from Schemas import schemas
 
 
 def add_item_to_restaurant(db: Session,request :schemas.itemBase , restaurant_id: int):
-    restaurant = db.query(model.Restaurant).filter(model.Restaurant.restaurant_id == restaurant_id).first()
+    restaurant = db.query(model.Restaurant).filter(restaurant_id == model.Restaurant.restaurant_id).first()
 
     if not restaurant:
         raise ValueError("Restaurant with the given ID does not exist.")

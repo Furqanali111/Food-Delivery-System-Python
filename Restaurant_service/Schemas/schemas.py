@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from typing import List
-from datetime import datetime
 
 class itemBase(BaseModel):
     item_name: str
@@ -62,4 +61,4 @@ class order_details(BaseModel):
     order_status: str
 
 class order_payload(order_details):
-    restaurant_id: int
+    id: int
