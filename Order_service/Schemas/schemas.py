@@ -48,3 +48,9 @@ class orderd_items(BaseModel):
 class show_order(orderBase):
     items: List[item]
 
+
+class update_order_status(BaseModel):
+    order_id: int
+    order_status: str
+    class Config:
+        orm_mode = True

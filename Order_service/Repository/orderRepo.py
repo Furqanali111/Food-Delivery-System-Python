@@ -21,7 +21,6 @@ def createOrder(request: schemas.createOrder,total_bil, db: Session):
 
     for item in request.items:
 
-
         existing_item = db.query(model.Item).filter(model.Item.item_id == item.item_id).first()
 
         if not existing_item:
@@ -49,18 +48,24 @@ def createOrder(request: schemas.createOrder,total_bil, db: Session):
         except Exception as e:
             print("error is this ",e)
 
-    try:
-        db.commit()
-    except Exception as e:
-        print("error is this after finaldb.commit ", e)
+    db.commit()
     return new_order
 
 def fetchOrder(order_id: int, db: Session):
-    user = db.query(model.Order).filter(order_id == model.Order.order_id).first()
-    if not user:
+    order = db.query(model.Order).filter(order_id == model.Order.order_id).first()
+    if not order:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Order with the id {order_id} is not available")
 
     db.commit()
 
-    return user
+    return order
+
+def updateOrder(update_order : model.Order ,db: Session):
+    db.merge(update_order)
+
+    db.commit()
+
+    db.refresh(update_order)
+
+    return update_order
