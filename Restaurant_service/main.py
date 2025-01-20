@@ -21,7 +21,6 @@ def custom_openapi():
         routes=app.routes,
     )
 
-    # Add the security scheme
     openapi_schema["components"]["securitySchemes"] = {
         "BearerAuth": {
             "type": "http",

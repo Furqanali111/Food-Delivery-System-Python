@@ -50,10 +50,16 @@ class credentials(BaseModel):
         orm_mode = True
 
 
-class payload(BaseModel):
+class auth_payload(BaseModel):
     id:int
     role:str
 
 class refresh_token(BaseModel):
     refresh_token:str
 
+class order_details(BaseModel):
+    order_id: int
+    order_status: str
+
+class order_payload(order_details):
+    restaurant_id: int

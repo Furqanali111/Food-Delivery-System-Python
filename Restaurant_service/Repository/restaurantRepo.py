@@ -26,7 +26,7 @@ def register_restaurant(db: Session, request: schemas.restaurantBase):
 
 
 def login(db: Session,request :schemas.credentials):
-    restaurant = db.query(model.Restaurant).filter(model.Restaurant.restaurant_email == request.email).first()
+    restaurant = db.query(model.Restaurant).filter(request.email == model.Restaurant.restaurant_email).first()
 
     # If the user doesn't exist, raise an exception
     if not restaurant:

@@ -2,7 +2,7 @@ import requests
 from Schemas import schemas
 from EnviornmentVariable import enVVar
 
-def create_token(payload:schemas.payload):
+def create_token(payload:schemas.auth_payload):
 
     url =enVVar.CREATE_TOKEN_URL
 
