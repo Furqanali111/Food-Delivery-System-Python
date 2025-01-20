@@ -22,6 +22,7 @@ def validate_token(request: Request):
 
         user_id = payload.get("id")
         role_type = payload.get("role")
+        payload["token"] = token
 
         print(f"Authenticated restaurant ID: {user_id}, Role: {role_type}")
 

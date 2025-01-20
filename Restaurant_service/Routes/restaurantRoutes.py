@@ -50,10 +50,11 @@ def refresh_token(request: schemas.refresh_token):
 
 def order_status(request: schemas.order_details,token_payload: dict = Depends(middleware.validate_token)):
 
+    token = token_payload['token']
     order_payload = utils.create_order_payload_obj(request,token_payload['id'])
 
     try:
-        response = orderClient.update_order_status(order_payload)
+        response = orderClient.update_order_status(order_payload,token)
         return response
     except Exception as e:
         raise HTTPException(
