@@ -52,5 +52,7 @@ class show_order(orderBase):
 class update_order_status(BaseModel):
     order_id: int
     order_status: str
+    id: int
+
     class Config:
         orm_mode = True

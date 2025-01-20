@@ -56,10 +56,37 @@ def fetchOrder(order_id: int, db: Session):
     if not order:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Order with the id {order_id} is not available")
-
     db.commit()
 
     return order
+
+
+def fetchOrderBaseOnRole(request: schemas.update_order_status ,role ,db: Session):
+
+    if "restaurant" == role:
+        order = db.query(model.Order).filter(request.order_id == model.Order.order_id and request.id == model.Order.restaurant_id).first()
+        if not order:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                                detail=f"Order with the id {request.order_id} is not available for the restaurant with id {request.id}")
+    elif role =="delivery_driver":
+        order = db.query(model.Order).filter(request.order_id == model.Order.order_id and request.id == model.Order.delivery_driver).first()
+        if not order:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                                detail=f"Order with the id {request.order_id} is not available for the delivery driver with id {request.id}")
+    elif role =="user":
+        order = db.query(model.Order).filter(request.order_id == model.Order.order_id and request.id == model.Order.user_id).first()
+        if not order:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                                detail=f"Order with the id {request.order_id} is not available for the user with id {request.id}")
+    else:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail=f"Invalid role for the token")
+
+
+    db.commit()
+    return order
+
+
 
 def updateOrder(update_order : model.Order ,db: Session):
     db.merge(update_order)
