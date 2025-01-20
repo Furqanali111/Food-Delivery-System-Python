@@ -33,7 +33,7 @@ def createOrder(request: schemas.createOrder, db:Session=Depends(get_db)):
     return orderRepo.createOrder(request,total_bill, db)
 
 
-@router.post('/update/status')
+@router.put('/update/status')
 def updateOrderStatus(request: schemas.update_order_status, db:Session=Depends(get_db)
                       ,token_payload : dict = Depends(middleware.validate_token)):
 
